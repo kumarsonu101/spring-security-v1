@@ -27,6 +27,7 @@ public class SecurityConfiguration {
     /*
     Use request.permitAll() or denyAll() as per requirement
      */
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) ->
