@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -39,5 +42,27 @@ public class SecurityConfiguration {
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
+    }
+
+    /*
+    Below-mentioned configuration is used for creating different user.
+    It can be used for testing but not for production.
+     */
+    @Bean
+    public InMemoryUserDetailsManager userDetailsManager() {
+        UserDetails admin = User.withDefaultPasswordEncoder()
+                .username("sus")
+                .password("shiv")
+                .authorities("admin")
+                .build();
+
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("abc")
+                .password("sps")
+                .authorities("user")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin,user);
+
     }
 }
