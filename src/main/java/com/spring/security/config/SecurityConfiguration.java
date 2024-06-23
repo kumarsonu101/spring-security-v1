@@ -7,6 +7,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -48,21 +50,39 @@ public class SecurityConfiguration {
     Below-mentioned configuration is used for creating different user.
     It can be used for testing but not for production.
      */
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsManager() {
+//        UserDetails admin = User.withDefaultPasswordEncoder()
+//                .username("sus")
+//                .password("shiv")
+//                .authorities("admin")
+//                .build();
+//
+//        UserDetails user = User.withDefaultPasswordEncoder()
+//                .username("abc")
+//                .password("sps")
+//                .authorities("user")
+//                .build();
+//        return new InMemoryUserDetailsManager(admin, user);
+//
+//    }
+
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("sus")
+        UserDetails admin = User.withUsername("sus")
                 .password("shiv")
                 .authorities("admin")
                 .build();
 
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("abc")
+        UserDetails user = User.withUsername("abc")
                 .password("sps")
                 .authorities("user")
                 .build();
+        return new InMemoryUserDetailsManager(admin, user);
+    }
 
-        return new InMemoryUserDetailsManager(admin,user);
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 }
