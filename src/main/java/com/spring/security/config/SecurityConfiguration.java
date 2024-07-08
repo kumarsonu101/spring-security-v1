@@ -34,11 +34,12 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) ->
+        http.csrf().disable().
+                authorizeHttpRequests((requests) ->
                 requests
                         .requestMatchers("/myAccount", "/myBalance", "/myCard", "/myLoan")
                         .authenticated()
-                        .requestMatchers("/notices", "/contact")
+                        .requestMatchers("/notices", "/contact","/register")
                         .permitAll());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
