@@ -9,10 +9,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class NationBankUserDetailService implements UserDetailsService {
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -33,12 +35,12 @@ public class NationBankUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String userName = null, password = null;
+        String userName, password;
         List<GrantedAuthority> authorites = null;
 
-        List<Customer> customerList = customerRepository.findByEmail(userName);
+        List<Customer> customerList = customerRepository.findByEmail(username);
 
-        if(0 < customerList.size()) {
+        if(0 == customerList.size()) {
             throw  new UsernameNotFoundException("UserDetails are not found for given user"+ username);
         }
         else {
